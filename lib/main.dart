@@ -1,56 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:raceway_app/Pages/tab_pages.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: TicketList(),
+    home: MyApp(),
   ));
 }
 
-class TicketList extends StatefulWidget {
-  const TicketList({Key? key}) : super(key: key);
+const double windowWidth = 1200;
+const double windowHeight = 800;
 
-  @override
-  State<TicketList> createState() => _TicketListState();
-}
+class Platform {}
 
-class _TicketListState extends State<TicketList> {
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Raceway App',
-          style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Arima'),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.red[400],
-      ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              Text('First Text'),
-              Text('Second Text'),
-              Text('Third Text'),
-              ElevatedButton(
-                onPressed: () {
-                  print("you clicked on the elevated button");
-                },
-                child: Icon(Icons.mail),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Raceway App'),
+          bottom: const TabBar(
+            isScrollable: true,
+            tabs: [
+              Tab(
+                text: 'Ticket Info',
               ),
-              IconButton(
-                  iconSize: 50.0,
-                  onPressed: () {
-                    print("you pressed the icon button\n");
-                  },
-                  icon: const Icon(Icons.addchart_rounded))
+              Tab(
+                text: 'Raceway Info',
+              ),
             ],
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: const Text('Open'),
-        onPressed: () {},
+        body: const SafeArea(
+            bottom: false,
+            child: TabBarView(children: [
+              TicketInfoPage(),
+              RacewayInfoPage(),
+            ])),
       ),
     );
   }
