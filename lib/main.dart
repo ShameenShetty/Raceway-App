@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:raceway_app/Pages/tab_pages.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: MyApp(),
   ));
 }
 
-const double windowWidth = 1200;
-const double windowHeight = 800;
-
-class Platform {}
+List<Widget> widgetList = [const TicketInfoPage(), const RacewayInfoPage()];
+Map<String, Widget> tabPagesMap = {
+  'Ticket Info': const TicketInfoPage(),
+  'Raceway Info': const RacewayInfoPage(),
+};
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -18,28 +19,26 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: tabPagesMap.length,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Raceway App'),
-          bottom: const TabBar(
+          bottom: TabBar(
             isScrollable: true,
             tabs: [
-              Tab(
-                text: 'Ticket Info',
-              ),
-              Tab(
-                text: 'Raceway Info',
-              ),
+              for (String key in tabPagesMap.keys)
+                Tab(
+                  text: key,
+                )
             ],
           ),
         ),
-        body: const SafeArea(
+        body: SafeArea(
             bottom: false,
-            child: TabBarView(children: [
-              TicketInfoPage(),
-              RacewayInfoPage(),
-            ])),
+            child: TabBarView(
+                children: tabPagesMap.entries
+                    .map((tabPage) => tabPage.value)
+                    .toList())),
       ),
     );
   }
