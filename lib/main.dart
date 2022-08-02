@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
       length: tabPagesMap.length,
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: const Text('Raceway App'),
           bottom: TabBar(
             isScrollable: true,
