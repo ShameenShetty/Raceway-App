@@ -1,12 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:raceway_app/Data/lottery_ticket_data.dart';
+import 'package:raceway_app/main.dart';
+import 'package:raceway_app/model/lottery_ticket.dart';
 
 class TicketInfoPage extends StatelessWidget {
   const TicketInfoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return ListView();
+    return Scaffold(
+      body: ListView(
+        children: [
+          for (LotteryTicket ticket in allTicketsList)
+            lotteryTicketCardTemplate(ticket.ticketNumber,
+                ticket.ticketName, ticket.ticketPrice)
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 }
 

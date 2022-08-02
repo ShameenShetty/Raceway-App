@@ -13,6 +13,26 @@ Map<String, Widget> tabPagesMap = {
   'Raceway Info': const RacewayInfoPage(),
 };
 
+Widget lotteryTicketCardTemplate(number, name, price) {
+  return SizedBox(
+    height: 70.0,
+    child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        color: Colors.amber.shade50,
+        clipBehavior: Clip.antiAlias,
+        margin: const EdgeInsets.fromLTRB(66.0, 8.0, 66.0, 8.0),
+        child: Column(
+          children: [
+            Text('$number'),
+            Text('$name'),
+            Text('\$$price'),
+          ],
+        )),
+  );
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
