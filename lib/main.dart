@@ -9,7 +9,7 @@ void main() {
 
 List<Widget> widgetList = [const TicketInfoPage(), const RacewayInfoPage()];
 Map<String, Widget> tabPagesMap = {
-  'Ticket Info': const TicketInfoPage(),
+  'Ticket List': const TicketInfoPage(),
   'Raceway Info': const RacewayInfoPage(),
 };
 
