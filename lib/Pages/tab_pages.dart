@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:raceway_app/Data/lottery_ticket_data.dart';
 import 'package:raceway_app/main.dart';
 import 'package:raceway_app/model/lottery_ticket.dart';
+import 'package:raceway_app/pages/add_new_ticket.dart';
+import 'package:pinch_zoom/pinch_zoom.dart';
 
 class TicketInfoPage extends StatelessWidget {
   const TicketInfoPage({super.key});
@@ -12,12 +14,15 @@ class TicketInfoPage extends StatelessWidget {
       body: ListView(
         children: [
           for (LotteryTicket ticket in allTicketsList)
-            lotteryTicketCardTemplate(ticket.ticketNumber,
-                ticket.ticketName, ticket.ticketPrice)
+            lotteryTicketCardTemplate(
+                ticket.ticketNumber, ticket.ticketName, ticket.ticketPrice)
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const AddNewTicket()));
+        },
         child: const Icon(Icons.add),
       ),
     );
@@ -34,6 +39,8 @@ Map<String, String> ticketInfo = {
   '\$30': '25 tickets',
   '\$50': '20 tickets',
 };
+
+String racewayScheduleLink = 'https://i.imgur.com/ktmkn1Q.png';
 
 class RacewayInfoPage extends StatelessWidget {
   const RacewayInfoPage({super.key});
@@ -64,7 +71,53 @@ class RacewayInfoPage extends StatelessWidget {
                         ],
                       ))
                   .toList()),
+          const SizedBox(
+            height: 15,
+          ),
+          const Text('Schedule'),
+          const SizedBox(
+            height: 15,
+          ),
+          GestureDetector(
+            child: Hero(
+              tag: 'Raceway Schedule',
+              child: Image.network(racewayScheduleLink),
+            ),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const DetailScreen();
+              }));
+            },
+            onDoubleTap: () {
+              print('image was doubled tapped');
+            },
+          )
         ],
+      ),
+    );
+  }
+}
+
+class DetailScreen extends StatelessWidget {
+  const DetailScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: GestureDetector(
+        onTap: () {
+          Navigator.pop(context);
+        },
+        child: PinchZoom(
+          maxScale: 2.5,
+          onZoomStart: () {
+            print('Start zooming');
+          },
+          onZoomEnd: () {
+            print('Stop zooming');
+          },
+          child: Image.network(racewayScheduleLink),
+        ),
       ),
     );
   }
