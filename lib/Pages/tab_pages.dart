@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:raceway_app/Data/lottery_ticket_data.dart';
 import 'package:raceway_app/main.dart';
 import 'package:raceway_app/model/lottery_ticket.dart';
 import 'package:raceway_app/pages/add_new_ticket.dart';
-import 'package:pinch_zoom/pinch_zoom.dart';
+import 'package:extended_image/extended_image.dart';
 
 class TicketInfoPage extends StatelessWidget {
   const TicketInfoPage({super.key});
@@ -52,6 +54,9 @@ class RacewayInfoPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(
+            height: 15,
+          ),
           const Text('Lottery Ticket Info'),
           const SizedBox(
             height: 15,
@@ -91,7 +96,15 @@ class RacewayInfoPage extends StatelessWidget {
             onDoubleTap: () {
               print('image was doubled tapped');
             },
-          )
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          ElevatedButton(
+              onPressed: () {
+                print('uploading a new schedule to the app');
+              },
+              child: Text('Upload New Schedule'))
         ],
       ),
     );
@@ -108,17 +121,120 @@ class DetailScreen extends StatelessWidget {
         onTap: () {
           Navigator.pop(context);
         },
-        child: PinchZoom(
-          maxScale: 2.5,
-          onZoomStart: () {
-            print('Start zooming');
-          },
-          onZoomEnd: () {
-            print('Stop zooming');
-          },
-          child: Image.network(racewayScheduleLink),
+        child: Center(
+          child: ExtendedImage.network(
+            racewayScheduleLink,
+            fit: BoxFit.contain,
+            //enableLoadState: false,
+            mode: ExtendedImageMode.gesture,
+            onDoubleTap: (ExtendedImageGestureState state) {
+              print('was double tapped');
+              // TODO -
+              // try adding the feature, where if I double tap it, it returns
+              // to the original size
+            },
+            initGestureConfigHandler: (state) {
+              return GestureConfig(
+                minScale: 0.9,
+                animationMinScale: 0.7,
+                maxScale: 3.0,
+                animationMaxScale: 3.5,
+                speed: 1.0,
+                inertialSpeed: 100.0,
+                initialScale: 1.0,
+                inPageView: false,
+                initialAlignment: InitialAlignment.center,
+              );
+            },
+          ),
         ),
+
+        // PinchZoom(
+        //   maxScale: 2.5,
+        //   onZoomStart: () {
+        //     print('Start zooming');
+        //   },
+        //   onZoomEnd: () {
+        //     print('Stop zooming');
+        //   },
+        //   child: Image.network(racewayScheduleLink),
+        // ),
       ),
+    );
+  }
+}
+
+class TodoCheckListPage extends StatefulWidget {
+  const TodoCheckListPage({Key? key}) : super(key: key);
+
+  @override
+  State<TodoCheckListPage> createState() => _TodoCheckListPageState();
+}
+
+bool _checked1 = false;
+bool _checked2 = false;
+bool _checked3 = false;
+
+List<CheckListItem> checkList = [
+  CheckListItem(
+      text: 'Finish lottery paperwork',
+      icon: const Icon(Icons.insert_drive_file_outlined),
+      checkBoxValue: _checked1),
+  CheckListItem(
+      text: 'Turn on music',
+      icon: const Icon(Icons.music_note),
+      checkBoxValue: _checked2),
+  CheckListItem(
+      text: 'Finish lottery paperwork',
+      icon: const Icon(Icons.checklist),
+      checkBoxValue: _checked3),
+];
+
+class CheckListItem {
+  final String text;
+  final Icon icon;
+  bool? checkBoxValue;
+
+  CheckListItem(
+      {required this.text, required this.icon, required this.checkBoxValue});
+}
+
+class _TodoCheckListPageState extends State<TodoCheckListPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const SizedBox(
+          height: 15,
+        ),
+        const Text('TODO Checklist'),
+        const SizedBox(
+          height: 15,
+        ),
+        // Lottery ticket info table
+        Column(
+            children: checkList
+                .map((checkListElem) => CheckboxListTile(
+                      title: Text(checkListElem.text),
+                      secondary: checkListElem.icon,
+                      controlAffinity: ListTileControlAffinity.leading,
+                      value: checkListElem.checkBoxValue,
+                      onChanged: (value) {
+                        setState(() {
+                          checkListElem.checkBoxValue = value;
+                        });
+                        print('setting the bool value is $value');
+                      },
+                      activeColor: Colors.green,
+                      checkColor: Colors.black,
+                    ))
+                .toList()),
+
+        const SizedBox(
+          height: 15,
+        ),
+      ],
     );
   }
 }

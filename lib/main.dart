@@ -9,8 +9,9 @@ void main() {
 
 List<Widget> widgetList = [const TicketInfoPage(), const RacewayInfoPage()];
 Map<String, Widget> tabPagesMap = {
-  'Ticket List': const TicketInfoPage(),
-  'Raceway Info': const RacewayInfoPage(),
+  'Ticket Info': const TicketInfoPage(),
+  'Raceway': const RacewayInfoPage(),
+  'TODO Checklist': const TodoCheckListPage(),
 };
 
 Widget lotteryTicketCardTemplate(number, name, price) {
